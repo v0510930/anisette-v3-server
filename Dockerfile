@@ -12,17 +12,19 @@ RUN DC=ldc2 dub build -c "static" --build-mode allAtOnce -b release --compiler=l
 
 # Base for run
 FROM debian:stable-slim
-RUN apt-get update && apt-get install --no-install-recommends -y ca-certificates curl libplist3 \
+# 修改点：将 libplist3 修改为 libplist3t64
+RUN apt-get update && apt-get install --no-install-recommends -y ca-certificates curl libplist3t64 \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
 
 # Copy build artefacts to run
 WORKDIR /opt/
+# 注意：确保二进制文件名与 builder 阶段生成的名称一致
 COPY --from=builder /opt/anisette-v3-server /opt/anisette-v3-server
 
 # Setup rootless user which works with the volume mount
 RUN useradd -ms /bin/bash Alcoholic \
- && mkdir /home/Alcoholic/.config/anisette-v3/lib/ -p \
+ && mkdir -p /home/Alcoholic/.config/anisette-v3/lib/ \
  && chown -R Alcoholic /home/Alcoholic/ \
  && chmod -R +wx /home/Alcoholic/ \
  && chown -R Alcoholic /opt/ \
