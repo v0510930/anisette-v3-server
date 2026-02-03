@@ -12,9 +12,9 @@ RUN DC=ldc2 dub build -c "static" --build-mode allAtOnce -b release --compiler=l
 
 # Base for run
 FROM debian:stable-slim
-RUN apt-get update && apt-get install --no-install-recommends -y ca-certificates curl \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install --no-install-recommends -y ca-certificates curl libplist3 \
+&& apt-get clean \
+&& rm -rf /var/lib/apt/lists/*
 
 # Copy build artefacts to run
 WORKDIR /opt/
