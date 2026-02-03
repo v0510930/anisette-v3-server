@@ -13,7 +13,7 @@ RUN DC=ldc2 dub build -c "static" --build-mode allAtOnce -b release --compiler=l
 # Base for run
 FROM debian:stable-slim
 # 修改点：将 libplist3 修改为 libplist3t64
-RUN apt-get update && apt-get install --no-install-recommends -y ca-certificates curl libplist3t64 \
+RUN apt-get update && apt-get install --no-install-recommends -y ca-certificates curl libplist-utils \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
 
